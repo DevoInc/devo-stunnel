@@ -1,0 +1,42 @@
+version: '3.7'
+
+# DCKHUB=devoinc/ docker-compose -f docker-devo-stunnel.yml up -d
+# Connect to container: docker exec -it Devo-Relay /bin/bash
+### Check STUNNEL:
+# for i in $( seq 10 ) ; do echo "<14>$( date --iso-8601=seconds ) docker-stunnel test.keep.free: Docker message with stunnel to Relay - test event # $i"|openssl s_client -connect localhost:6615 -key /etc/pki/stunnel/server.key -cert /etc/pki/stunnel/server.crt; done
+#####
+
+networks:
+  devoring:
+
+services:
+  Devo-Stunnel:
+    image: ${DCKHUB}devo-stunnel:5.44
+    hostname: stunnel
+    container_name: Devo-Stunnel
+    restart: always
+    environment:
+      - DUMMYSTAT=0
+    ports:
+     - 6601-6650:6601-6650
+    volumes:
+       ###App persisten information
+       - type: bind
+         source: "./conf/stunnel/stunnel.conf"
+         target: "/etc/stunnel/stunnel.conf"
+       - type: bind
+         source: "./conf/stunnel/certs"
+         target: "/etc/pki/stunnel"
+       - type: bind
+         source: "./conf/logs/stunnel4"
+         target: "/var/log/stunnel4"
+    networks:
+       devoring:
+         aliases:
+           - DevoStunnel
+    # To debug uncomment the next line
+    # command: "tail -F /root/docker_images_version.txt"
+    logging:
+      driver: none
+
+### END
