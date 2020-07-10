@@ -15,6 +15,10 @@ After installing Docker in your machine, simply clone this repo.
    - chmod 600 {project_path}/sconf/stunnel/certs/server.key
    - chmod 666 {project_path}/conf/logs/stunnel4/stunnel.log
 
+3. You can check and download devo-stunnel image from [DockerHub](https://hub.docker.com/r/devoinc/devo-stunnel):
+
+   - docker pull devoinc/devo-stunnel:5.44
+
 ## Start and Stop Devo-Relay with Stunnel
 
 1. RUN: cd to {project_path} and execute the following command:
